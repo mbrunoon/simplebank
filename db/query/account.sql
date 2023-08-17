@@ -13,7 +13,7 @@ RETURNING *;
 SELECT * FROM accounts
 WHERE id = $1 LIMIT 1;
 
--- name: ListAccount :many
+-- name: ListAccounts :many
 SELECT * FROM accounts
 ORDER BY id
 LIMIT $1
@@ -25,5 +25,5 @@ SET balance = $2
 WHERE id = $1
 RETURNING *;
 
--- name DeleteAccount :exec
+-- name: DeleteAccount :exec
 DELETE FROM accounts WHERE id = $1;
