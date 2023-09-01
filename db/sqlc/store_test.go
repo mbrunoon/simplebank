@@ -20,6 +20,8 @@ func testTrasferTx(t *testing.T) {
 	errs := make(chan error)
 	results := make(chan TransferTxResult)
 
+	existed := make(map[int]bool)
+
 	for i := 0; i < n; i++ {
 		go func() {
 			result, err := store.TransferTx(context.Background(), TransferTxParams{
@@ -69,6 +71,26 @@ func testTrasferTx(t *testing.T) {
 
 			_, err = store.GetEntry(context.Background(), toEntry.ID)
 			assert.NoError(t, err)
+
+			fromAccount := result.FromAccount
+			assert.NotEmpty(t, fromAccount)
+			assert.Equal(t, fromAccount.ID, account1.ID)
+
+			toAccount := result.ToAccount
+			assert.NotEmpty(t, toAccount)
+			assert.Equal(t, toAccount.ID, account2.ID)
+
+			diff1 := fromAccount.Balance - account1.Balance
+			diff2 := toAccount.Balance - account2.Balance
+			assert.Equal(t, diff1, diff2)
+			assert.True(t, diff1 > 0)
+			assert.True(t, diff1%amount == 0)
+
+			k := int(diff1 / amount)
+			assert.True(t, k >= 1 && k <= n)
+			assert.NotContains(t, existed, k)
+			existed[k] = true
 		}
+
 	}
 }
