@@ -89,18 +89,3 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 
 	return result, err
 }
-
-type UpdateAccountTxParams struct {
-	// TODO
-}
-
-type UpdateAccountTxResult struct {
-	// TODO
-}
-
-func (store *Store) UpdateAccountTx(ctx context.Context, arg UpdateAccountParams) (UpdateAccountTxResult, error) {
-	// TODO
-	var result UpdateAccountTxResult
-	var err error
-	return result, err
-}
