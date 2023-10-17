@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func createRandonAccount(t *testing.T) Account {
+func createRandomAccount(t *testing.T) Account {
 
 	arg := CreateAccountParams{
 		Owner:    util.RandonOwner(),
@@ -34,8 +34,8 @@ func createRandonAccount(t *testing.T) Account {
 }
 
 func TestGetAccount(t *testing.T) {
-	account1 := createRandonAccount(t)
-	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
+	account1 := createRandomAccount(t)
+	account2, err := testQueries.GetAccountForUpdate(context.Background(), account1.ID)
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, account2)
@@ -49,7 +49,7 @@ func TestGetAccount(t *testing.T) {
 
 func TestUpdateAccount(t *testing.T) {
 
-	account1 := createRandonAccount(t)
+	account1 := createRandomAccount(t)
 
 	arg := UpdateAccountParams{
 		ID:      account1.ID,
@@ -69,11 +69,11 @@ func TestUpdateAccount(t *testing.T) {
 }
 
 func TestDeleteAccount(t *testing.T) {
-	account1 := createRandonAccount(t)
+	account1 := createRandomAccount(t)
 	err := testQueries.DeleteAccount(context.Background(), account1.ID)
 	assert.NoError(t, err)
 
-	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
+	account2, err := testQueries.GetAccountForUpdate(context.Background(), account1.ID)
 	assert.Error(t, err)
 	assert.EqualError(t, err, sql.ErrNoRows.Error())
 	assert.Empty(t, account2)
@@ -82,7 +82,7 @@ func TestDeleteAccount(t *testing.T) {
 func TestListAccounts(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
-		createRandonAccount(t)
+		createRandomAccount(t)
 	}
 
 	arg := ListAccountsParams{

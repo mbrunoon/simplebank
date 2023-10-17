@@ -12,7 +12,7 @@ import (
 
 func CreateRandomEntry(t *testing.T) Entry {
 
-	account := createRandonAccount(t)
+	account := createRandomAccount(t)
 
 	arg := CreateEntryParams{
 		AccountID: account.ID,
