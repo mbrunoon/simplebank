@@ -39,7 +39,7 @@ jobs:
       with:
         go-version: '1.20'
 
-    - names: Set up Make
+    - name: Set up Make
       uses: actions/checkout@v3
 
     - name: Install golang-migrate
